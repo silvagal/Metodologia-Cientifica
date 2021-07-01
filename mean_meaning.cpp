@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <utility>
+#include <math.h>
 
 template <class T>
 void swap(std::vector<T>& a, int& v1_idx, int& v2_idx){
@@ -62,18 +64,33 @@ double mode(const std::vector<double>& data){
 double percentile(const std::vector<double>& data, int p){
     int n = data.size();
     if (n % 2 != 0)
-        return data[(double) p / 100.00 * data.size()];
+        return data[(double) p / 100.00 * n];
     else{
-        return (data[(double) p / 100.00 * data.size()] + data[((double) p / 100.00 * data.size()) - 1]) / 2;
+        return (data[(double) p / 100.00 * n] + data[((double) p / 100.00 * n) - 1]) / 2;
     }
 }
 
-double median(std::vector<double>& data) {
-    int l = 0, r = data.size() - 1;
-    quickSort(data, l, r);
-//    for (auto& i : data)
-//        std::cout << i << " ";
+double median(const std::vector<double>& data) {
     return percentile(data, 50);
+}
+
+std::pair<double,double> interval(const std::vector<double>& data){
+    std::pair <double,double> interval;
+    interval.first = data[0];
+    interval.second = data[data.size() - 1];
+    return interval;
+}
+
+double variance(const std::vector<double>& data){
+    double variance = 0.0;
+    double d_mean = mean(data);
+    for (auto i : data)
+        variance += pow(i - d_mean, 2.0);
+    return variance/data.size();
+}
+
+double std_dev(const std::vector<double>& data){
+    return sqrt(variance(data));
 }
 
 int main() {
@@ -83,8 +100,17 @@ int main() {
                                26, 42, 3, 4, 8, 3, 11, 16, 38, 17, 7, 40, 38, 34, 47, 29, 46, 12, 15, 23, 36,
                                34, 12, 2, 11, 28, 7, 7, 46, 5, 11, 7};
 
-    std::cout << "mode : " << mode(vet) << std::endl;
+    int l = 0, r = vet.size() - 1;
+
+    quickSort(vet, l, r);
+    for (auto& i : vet)
+        std::cout << i << " ";
+
+    std::cout << "\nmode : " << mode(vet) << std::endl;
     std::cout << "mean : " << mean(vet) << std::endl;
     std::cout << "median : " << median(vet) << std::endl;
+    std::cout << "intervalo : " << interval(vet).first << " - " << interval(vet).second << std::endl;
+    std::cout << "variance : " << variance(vet) << std::endl;
+    std::cout << "standard deviation : " << std_dev(vet) << std::endl;
     return 0;
 }
