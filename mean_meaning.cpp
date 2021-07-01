@@ -65,9 +65,8 @@ double percentile(const std::vector<double>& data, int p){
     int n = data.size();
     if (n % 2 != 0)
         return data[(double) p / 100.00 * n];
-    else{
+    else
         return (data[(double) p / 100.00 * n] + data[((double) p / 100.00 * n) - 1]) / 2;
-    }
 }
 
 double median(const std::vector<double>& data) {
