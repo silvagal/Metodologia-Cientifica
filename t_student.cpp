@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
-#include<tuple>
+#include <hypergeometric.hpp>
+#include <tuple>
 
 double mean(const std::vector<double>& data){
     double sum = 0.0;
